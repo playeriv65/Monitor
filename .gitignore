@@ -1,0 +1,3 @@
+*.pt
+/picture
+/__pycache__

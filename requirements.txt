@@ -1,4 +1,4 @@
-opencv-python~=4.9.0.80
-ultralytics~=8.1.27
-flask~=2.2.5
-flask_sock
+opencv-python==4.10.0.84
+ultralytics==8.3.3
+flask==3.0.3
+flask_sock==0.7.0
