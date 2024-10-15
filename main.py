@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.WARNING)
 logging.getLogger('ultralytics').setLevel(logging.CRITICAL)
 logging.getLogger('libpng').setLevel(logging.CRITICAL)
 
+# 是否开启摄像头、服务器和记录器
 Cameraon = True
 Serveron = True
 Recorderon = True

@@ -1,3 +1,4 @@
 *.pt
+temp.*
 /picture
 /__pycache__
