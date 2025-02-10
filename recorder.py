@@ -1,25 +1,23 @@
 import cv2
 import json
 import os
+import logging
+from config import PICTURE_DIR, FALL_RECORD_FILE
 
 def recorder(rqueue):
     while True:
         record = rqueue.get()
 
-        print("\033[94mStart Write\033[0m")
+        logging.info("\033[94mStart Write\033[0m")
 
         time = record[0]
         user = record[1]
-
-        cv2.imwrite("./picture/01.jpg", record[2])
-        cv2.imwrite("./picture/02.jpg", record[3])
-        cv2.imwrite("./picture/03.jpg", record[4])
-        cv2.imwrite("./picture/04.jpg", record[5])
-        print("Pictures written")
-
+        
         for i in range(4):
-            os.rename(f"./picture/0{i+1}.jpg", f"./picture/{user}-{time}-0{i+1}.jpg")
-        #f"./picture/{user}-{time}-02.jpg"
+            filename = f"{user}-{time}-{(i+1):03d}.jpg"
+            cv2.imwrite(os.path.join(PICTURE_DIR, filename), record[i+2])
+        
+        logging.info("Pictures written")  # 记录日志
 
         data = {
             "record": time,
@@ -27,9 +25,7 @@ def recorder(rqueue):
             "is_clicked": 0
         }
 
-        # asyncio.run(write_to_file("fall_record.json", data))
-
-        with open("fall_record.json", "r+") as f:
+        with open(FALL_RECORD_FILE, "r+") as f:
             rdata = json.load(f)
             rdata.insert(0, data)
             f.seek(0, 0)

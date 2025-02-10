@@ -2,6 +2,7 @@ import json
 import os
 from flask import Flask, request, abort, send_file
 from flask_sock import Sock, Server
+from config import PICTURE_DIR, FALL_RECORD_FILE, PORT
 
 def server(fqueue):
     app = Flask(__name__)
@@ -24,7 +25,7 @@ def server(fqueue):
 
     @app.route('/checkall', methods=["POST"])
     def checkall():
-        with open('fall record.json', 'r+') as f:
+        with open(FALL_RECORD_FILE, 'r+') as f:
             data = json.load(f)
             return data
 
@@ -35,7 +36,7 @@ def server(fqueue):
         record0 = record["record"]
         user = record["user"]
 
-        with open("fall record.json", 'r+') as f:
+        with open(FALL_RECORD_FILE, 'r+') as f:
             data = json.load(f)
             for r in data:
                 if r["record"] == record0 and r["user"] == user:
@@ -44,7 +45,6 @@ def server(fqueue):
                     json.dump(data, f, indent=4)
         return {}
 
-
     @app.route('/download/<filename>', methods=["POST", "GET"])
     def download(filename):
         # 如果没有提供文件名，返回400错误
@@ -52,7 +52,7 @@ def server(fqueue):
             abort(400, description="Filename is required")
 
         # 构造文件路径（请根据需要修改）
-        file_path = os.path.join("./picture", filename)
+        file_path = os.path.join(PICTURE_DIR, filename)
 
         try:
             # 发送文件
@@ -62,5 +62,4 @@ def server(fqueue):
             # 如果文件未找到，返回404错误
             abort(404, description="File not found")
 
-
-    app.run(port=8088)
+    app.run(port=PORT)
