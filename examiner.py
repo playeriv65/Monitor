@@ -102,7 +102,7 @@ def examiner(fqueue, rqueue):
         if len(frames) > int(fps):
             del frames[0]
 
-        results = model(frame)
+        results = model.track(frame)
         
         # 先显示图像
         if len(results) > 0:
@@ -113,7 +113,7 @@ def examiner(fqueue, rqueue):
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
-        # # 记录头部和脚部位置，无检测时标记为 None
+        # 记录头部和脚部位置，无检测时标记为 None
         if not validate_results(results):
             head.append(None)
             foot.append(None)

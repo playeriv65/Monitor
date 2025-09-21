@@ -3,3 +3,5 @@ picture/*
 /__pycache__
 test.*
 temp.*
+/main-final
+/reference.py
